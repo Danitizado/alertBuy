@@ -3,36 +3,40 @@ const connection = require('../database/connection');
 
 module.exports = {
 
-    async index (req, res ) {
-        const stores = await connection('stores').select('*')
+    async index(req, res) {
+        const stores = await connection('stores').select('*');
 
         return res.json(stores)
     },
 
-    async create (req, res) {
-        const { name, email, category, city, uf } = req.body;
+    async create(req, res) {
+        const { name, email, phone, category, city, uf } = req.body;
 
         const stores = await connection('stores').select('*')
 
-        let result = await stores.find( store => store.email === email );
+        let result = await stores.find(store => store.email === email);
 
-        const id = crypto.randomBytes(4).toString('HEX');
+        const idGenerate = crypto.randomBytes(4).toString('HEX');
+        const id = idGenerate.toUpperCase();
 
-        if ( !result ) {
+        if (!result) {
             await connection('stores').insert({
                 id,
                 name,
                 email,
+                phone,
                 category,
                 city,
                 uf
             });
-    
-            return res.json({id});
+
+            return res.status(201).send({ success: 'User created successfully!', id });
         }
 
-        if ( email === result.email ) { 
+
+        if (email === result.email) {
             res.status(409).send({ error: 'This user Already registered.' })
         }
+
     }
 }
