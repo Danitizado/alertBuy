@@ -32,5 +32,26 @@ module.exports = {
         });
 
         return res.json({ id })
-    } 
+    },
+
+    async remove (req, res) {
+        const { id } = req.params;
+        const store_id = req.headers.authorization;
+
+        const product = await connection('products')
+        .where('id', id)
+        .select('store_id')
+        .first();
+
+        if ( product.store_id !== store_id ) {
+
+            return res.status(401).send({ error: 'Operation Unauthorized.' });
+        }
+
+        await connection('products')
+        .where('id', id)
+        .delete();
+
+        return res.status(204).send({ success: 'Product removed successfully!' });
+    }
 }
