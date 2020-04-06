@@ -9,7 +9,7 @@ module.exports = {
         const products = await connection('products')
         .join('stores', 'stores.id', '=', 'products.store_id')
         .limit(5)
-        .offset((page -1 ) * 1)
+        .offset((page - 1 ) * 5)
         .select(['products.*',
         'stores.name',
         'stores.email',
