@@ -52,6 +52,6 @@ module.exports = {
         .where('id', id)
         .delete();
 
-        return res.status(200).send({ success: 'Product removed successfully!' });
+        return res.status(401).send({ success: 'Product removed successfully.' });
     }
 }
