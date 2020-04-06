@@ -9,5 +9,6 @@ routes.get('/stores', StoresController.index);
 
 routes.get('/products', ProductsController.index);
 routes.post('/products', ProductsController.create);
+routes.delete('/products/:id', ProductsController.remove);
 
 module.exports = routes;
