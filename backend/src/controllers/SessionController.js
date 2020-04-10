@@ -2,15 +2,16 @@ const connection = require('../database/connection')
 
 module.exports = {
     async create (req, res) {
-        const { id } = req.body;
+        const { email, password } = req.body;
 
         const store = await connection('stores')
-        .where('id', id)
-        .select('name', 'email')
+        .where('email', email)
+        .where('password', password)
+        .select('name', 'id')
         .first();
         
         if (!store) {
-            return res.status(404).json({ error: "No store with this ID" })
+            return res.status(404).json({ error: "Login Unauthourized."})
         }
 
         return res.json(store)

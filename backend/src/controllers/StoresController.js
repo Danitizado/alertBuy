@@ -10,7 +10,7 @@ module.exports = {
     },
 
     async create(req, res) {
-        const { name, email, phone, category, city, uf } = req.body;
+        const { name, email, password, phone, category, city, uf } = req.body;
 
         const stores = await connection('stores').select('*')
 
@@ -24,6 +24,7 @@ module.exports = {
                 id,
                 name,
                 email,
+                password,
                 phone,
                 category,
                 city,
